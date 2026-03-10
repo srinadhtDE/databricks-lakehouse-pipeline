@@ -162,6 +162,23 @@ Example aggregated transaction metrics produced by the Gold layer.
 
 These metrics are generated from the **Gold analytics layer** after processing transaction data through the Bronze and Silver layers.
 
+---
+## Pipeline Orchestration
+
+The pipeline is orchestrated using Apache Airflow.
+
+DAG: fintech_transaction_pipeline
+
+Workflow:
+
+Generate synthetic transaction data  
+→ Bronze ingestion  
+→ Bronze to Silver transformation  
+→ Silver to Gold analytics metrics  
+→ Data quality validation  
+→ Pipeline monitoring
+---
+
 ## Future Improvements
 
 - Fraud detection model using ML features
