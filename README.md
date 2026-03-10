@@ -1,5 +1,27 @@
 # Databricks Lakehouse Pipeline
 
+ ## Business Problem
+
+Fintech platforms process millions of transactions every day from payment APIs, mobile apps, and partner integrations.  
+
+Raw transaction data is often messy and difficult to use for analytics because it contains:
+
+- duplicate records  
+- inconsistent schemas  
+- failed or incomplete transactions  
+- high data volume that is expensive to query directly  
+
+Business teams need reliable analytics datasets to answer questions such as:
+
+- What is the daily revenue processed by the platform?
+- How many active users are making transactions?
+- Which countries or merchants show abnormal fraud patterns?
+- Are transaction volumes increasing or decreasing over time?
+
+I understood that without a structured data platform, these questions are difficult to answer quickly and accurately.
+
+  ---
+
 ## Project Overview
 
 This project demonstrates a production-style data engineering pipeline built using a Lakehouse architecture.
@@ -85,6 +107,7 @@ Tracks source → target transformations across pipeline stages.
 ---
 
 ## Project Structure
+
 databricks-lakehouse-pipeline
 ├ ingestion
 ├ transformations
