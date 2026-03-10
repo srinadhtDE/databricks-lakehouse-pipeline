@@ -1,12 +1,6 @@
 - Architecture :
 
-Data Source
-     ↓
-Bronze Layer (Raw Ingestion)
-     ↓
-Silver Layer (Data Cleaning & Validation)
-     ↓
-Gold Layer (Analytics Metrics)
+Data Source -> Bronze Layer (Raw Ingestion) -> Silver Layer (Data Cleaning & Validation) -> Gold Layer (Analytics Metrics)
 
 - Tech Stack:
 
