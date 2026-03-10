@@ -1,10 +1,35 @@
-- Architecture : Data Source -> Bronze Layer (Raw Ingestion) -> Silver Layer (Data Cleaning & Validation) -> Gold Layer (Analytics Metrics)
+# Databricks Lakehouse Pipeline
 
-- Tech Stack: Databricks,
-Apache Spark (PySpark),
-Delta Lake,
-Medallion Architecture.
+## Project Overview
 
-- Pipeline Steps: Raw transactions ingested into Bronze Delta table.
-Silver layer cleans and deduplicates data.
-Gold layer creates analytics metrics like revenue and active users.
+This project demonstrates a production-style data engineering pipeline built using a Lakehouse architecture.
+
+The pipeline processes fintech transaction data and produces curated analytics datasets that can power reporting dashboards and machine learning workflows such as fraud detection.
+
+---
+
+## Architecture
+
+Transaction Data Source  
+↓  
+Bronze Layer – Raw ingestion using PySpark  
+↓  
+Silver Layer – Data cleaning, deduplication and validation  
+↓  
+Gold Layer – Aggregated business metrics  
+↓  
+Analytics / Machine Learning
+
+---
+
+## Tech Stack
+
+- PySpark
+- Delta Lake
+- dbt
+- GitHub Actions (CI/CD)
+- Python
+
+---
+
+## Project Structure
