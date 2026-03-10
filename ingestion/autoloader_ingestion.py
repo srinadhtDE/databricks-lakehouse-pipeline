@@ -1,33 +1,27 @@
-from pyspark.sql import SparkSession
-from utils.config_loader import load_config, get_logger
+from pyspark.sql.types import *
+from configs.databricks_config import *
 
-logger = get_logger("bronze_ingestion")
+transaction_schema = StructType([
+    StructField("transaction_id", IntegerType()),
+    StructField("user_id", IntegerType()),
+    StructField("merchant_id", IntegerType()),
+    StructField("transaction_amount", DoubleType()),
+    StructField("transaction_type", StringType()),
+    StructField("payment_method", StringType()),
+    StructField("transaction_status", StringType()),
+    StructField("transaction_timestamp", TimestampType()),
+    StructField("country", StringType()),
+    StructField("fraud_flag", IntegerType())
+])
 
-config = load_config("../configs/pipeline_config.yaml")
+df = spark.readStream \
+    .format("cloudFiles") \
+    .option("cloudFiles.format", "csv") \
+    .option("header", True) \
+    .schema(transaction_schema) \
+    .load(DATA_PATH)
 
-spark = SparkSession.builder \
-    .appName("bronze_ingestion_pipeline") \
-    .getOrCreate()
-
-logger.info("Starting Bronze ingestion pipeline")
-
-try:
-
-    df = spark.read \
-        .option("header", True) \
-        .csv(config["data_path"])
-
-    logger.info(f"Loaded raw dataset with {df.count()} records")
-
-    df.write \
-        .format("delta") \
-        .mode("overwrite") \
-        .saveAsTable(config["bronze_table"])
-
-    logger.info("Bronze table successfully created")
-
-except Exception as e:
-
-    logger.error("Bronze ingestion failed")
-    logger.error(str(e))
-    raise
+df.writeStream \
+    .format("delta") \
+    .option("checkpointLocation", CHECKPOINT_PATH) \
+    .table(BRONZE_TABLE)
