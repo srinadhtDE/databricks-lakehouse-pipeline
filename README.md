@@ -8,21 +8,55 @@ The pipeline processes fintech transaction data and produces curated analytics d
 
 ---
 
-## Architecture Diagram
-
-Transaction Source
-↓
-Bronze (Raw Data)
-↓
-Delta Lake
-↓
-Silver (Clean Data)
-↓
-Gold (Analytics Metrics)
-↓
-dbt Models
-↓
-BI / ML
+                ┌─────────────────────┐
+                │   Airflow Scheduler │
+                │(Pipeline Orchestration) │
+                └──────────┬──────────┘
+                           │
+                           ▼
+                ┌─────────────────────┐
+                │ Transaction Source  │
+                │ CSV / API / Stream  │
+                └──────────┬──────────┘
+                           │
+                           ▼
+                ┌─────────────────────┐
+                │ Bronze Layer        │
+                │ Raw Data Ingestion  │
+                │ PySpark / Streaming │
+                └──────────┬──────────┘
+                           │
+                           ▼
+                ┌─────────────────────┐
+                │ Delta Lake Storage  │
+                │ ACID + Schema       │
+                └──────────┬──────────┘
+                           │
+                           ▼
+                ┌─────────────────────┐
+                │ Silver Layer        │
+                │ Data Cleaning       │
+                │ Validation          │
+                └──────────┬──────────┘
+                           │
+                           ▼
+                ┌─────────────────────┐
+                │ Gold Layer          │
+                │ Business Metrics    │
+                │ Aggregations        │
+                └──────────┬──────────┘
+                           │
+                           ▼
+                ┌─────────────────────┐
+                │ dbt Transformation  │
+                │ Analytics Models    │
+                └──────────┬──────────┘
+                           │
+                           ▼
+                ┌─────────────────────┐
+                │ BI / ML Consumers   │
+                │ Dashboards / Models │
+                └─────────────────────┘
 
 ---
 ## Metadata & Lineage Tracking
