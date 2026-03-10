@@ -202,6 +202,38 @@ Generate synthetic transaction data
 → Pipeline monitoring
 ---
 
+## Data Governance Design
+
+In a production Databricks environment, this pipeline would be governed using Unity Catalog.
+
+Governance capabilities would include:
+
+• centralized catalog and schema management  
+• role-based access control for analysts and engineers  
+• automatic data lineage tracking between Bronze, Silver, and Gold layers  
+• audit logging for compliance and regulatory requirements  
+
+Example table structure:
+
+fintech_catalog.transactions.bronze_transactions  
+fintech_catalog.transactions.silver_transactions  
+fintech_catalog.transactions.gold_transaction_metrics
+
+---
+
+## Data Sources
+
+This project currently uses synthetic transaction data for demonstration.
+
+In production environments, the Bronze ingestion layer would connect to sources such as:
+
+• Kafka or Event Hubs transaction streams  
+• Payment processor APIs  
+• S3 / ADLS transaction data lakes  
+• relational databases containing settlement data
+
+---
+
 ## Future Improvements
 
 - Fraud detection model using ML features
