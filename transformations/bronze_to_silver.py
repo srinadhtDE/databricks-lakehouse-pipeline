@@ -1,25 +1,21 @@
-from pyspark.sql.functions import col
-from utils.config_loader import load_config, get_logger
+from metadata.run_tracker import start_pipeline, end_pipeline
+from metadata.lineage_tracker import record_lineage
 
-logger = get_logger("silver_transformation")
+run_id = start_pipeline("bronze_to_silver")
 
-config = load_config("../configs/pipeline_config.yaml")
+bronze_df = spark.table("bronze_transactions")
 
-logger.info("Starting Silver transformation")
+silver_df = bronze_df.dropDuplicates(["transaction_id"])
 
-bronze_df = spark.table(config["bronze_table"])
+silver_df.write.format("delta").mode("overwrite").saveAsTable("silver_transactions")
 
-clean_df = bronze_df \
-    .dropDuplicates(["transaction_id"]) \
-    .filter(col("transaction_amount") > 0) \
-    .filter(col("transaction_status") == "completed")
+records = silver_df.count()
 
-logger.info(f"Cleaned dataset count: {clean_df.count()}")
+record_lineage(
+    "bronze_to_silver",
+    "bronze_transactions",
+    "silver_transactions",
+    "deduplication"
+)
 
-clean_df.write \
-    .format("delta") \
-    .mode("overwrite") \
-    .partitionBy(config["partition_column"]) \
-    .saveAsTable(config["silver_table"])
-
-logger.info("Silver table created successfully")
+end_pipeline(run_id, records)
