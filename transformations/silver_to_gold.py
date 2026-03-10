@@ -1,3 +1,4 @@
+from pyspark.sql.functions import col, to_date, countDistinct, sum as spark_sum, avg
 from utils.config_loader import load_config, get_logger
 
 logger = get_logger("gold_aggregation")
@@ -8,19 +9,21 @@ logger.info("Starting Gold layer aggregation")
 
 silver_df = spark.table(config["silver_table"])
 
-gold_df = silver_df.groupByExpr(
-    "date(transaction_timestamp) as transaction_date"
-).aggExpr(
-    "count(*) as total_transactions",
-    "sum(transaction_amount) as total_revenue",
-    "count(distinct user_id) as active_users",
-    "avg(transaction_amount) as avg_transaction_value",
-    "sum(fraud_flag) as fraud_transactions"
-)
+gold_df = silver_df \
+    .withColumn("transaction_date", to_date(col("transaction_timestamp"))) \
+    .groupBy("transaction_date") \
+    .agg(
+        spark_sum("transaction_amount").alias("total_revenue"),
+        countDistinct("user_id").alias("active_users"),
+        countDistinct("transaction_id").alias("total_transactions"),
+        avg("transaction_amount").alias("avg_transaction_value"),
+        spark_sum("fraud_flag").alias("fraud_transactions")
+    )
 
 gold_df.write \
     .format("delta") \
     .mode("overwrite") \
+    .partitionBy("transaction_date") \
     .saveAsTable(config["gold_table"])
 
 logger.info("Gold metrics table successfully created")
