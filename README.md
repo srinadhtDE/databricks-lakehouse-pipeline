@@ -10,22 +10,19 @@ The pipeline processes fintech transaction data and produces curated analytics d
 
 ## Architecture Diagram
 
-```mermaid
-flowchart TD
-
-A[Transaction Data Source CSV API Streaming]
-
-A --> B[Bronze Layer Raw Data Ingestion PySpark Streaming]
-
-B --> C[Delta Lake Storage ACID Transactions Schema Enforcement]
-
-C --> D[Silver Layer Data Cleaning Deduplication Validation]
-
-D --> E[Gold Layer Business Metrics Revenue Analytics Fraud Monitoring]
-
-E --> F[dbt Transformation Layer Analytics Models]
-
-F --> G[Data Consumers Dashboards BI ML Models]
+Transaction Source
+↓
+Bronze (Raw Data)
+↓
+Delta Lake
+↓
+Silver (Clean Data)
+↓
+Gold (Analytics Metrics)
+↓
+dbt Models
+↓
+BI / ML
 
 ---
 
