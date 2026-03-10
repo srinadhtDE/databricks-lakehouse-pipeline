@@ -1,0 +1,12 @@
+bronze_table: bronze_transactions
+silver_table: silver_transactions
+gold_table: gold_transaction_metrics
+
+data_path: /FileStore/data/transactions
+checkpoint_path: /FileStore/checkpoints/transactions
+
+partition_column: transaction_date
+
+pipeline_owner: data_engineering_team
+pipeline_name: fintech_transaction_pipeline
+environment: development
