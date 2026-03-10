@@ -1,0 +1,9 @@
+version: 2
+
+models:
+
+  - name: stg_transactions
+    description: Cleaned transaction dataset
+
+  - name: transaction_metrics
+    description: Aggregated business metrics for transaction analytics
