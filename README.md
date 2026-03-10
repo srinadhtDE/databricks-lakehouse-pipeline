@@ -25,6 +25,17 @@ dbt Models
 BI / ML
 
 ---
+## Metadata & Lineage Tracking
+
+The pipeline tracks execution metadata and table lineage using Delta tables.
+
+Metadata tables:
+
+pipeline_runs
+Tracks pipeline executions, status, and records processed.
+
+data_lineage
+Tracks source → target transformations across pipeline stages.
 
 ## Tech Stack
 
