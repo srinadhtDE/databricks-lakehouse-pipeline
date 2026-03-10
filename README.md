@@ -7,10 +7,33 @@ This project demonstrates a production-style data engineering pipeline built usi
 The pipeline processes fintech transaction data and produces curated analytics datasets that can power reporting dashboards and machine learning workflows such as fraud detection.
 
 ---
+## Metadata & Lineage Tracking
+
+The pipeline tracks execution metadata and table lineage using Delta tables.
+
+Metadata tables:
+
+pipeline_runs
+Tracks pipeline executions, status, and records processed.
+
+data_lineage
+Tracks source → target transformations across pipeline stages.
+
+## Tech Stack
+
+- PySpark
+- Delta Lake
+- dbt
+- GitHub Actions (CI/CD)
+- Python
+
+---
+## Architecture
+
 
                 ┌─────────────────────┐
                 │   Airflow Scheduler │
-                │(Pipeline Orchestration) │
+                │(Pipeline Orchestration)│
                 └──────────┬──────────┘
                            │
                            ▼
@@ -58,26 +81,6 @@ The pipeline processes fintech transaction data and produces curated analytics d
                 │ Dashboards / Models │
                 └─────────────────────┘
 
----
-## Metadata & Lineage Tracking
-
-The pipeline tracks execution metadata and table lineage using Delta tables.
-
-Metadata tables:
-
-pipeline_runs
-Tracks pipeline executions, status, and records processed.
-
-data_lineage
-Tracks source → target transformations across pipeline stages.
-
-## Tech Stack
-
-- PySpark
-- Delta Lake
-- dbt
-- GitHub Actions (CI/CD)
-- Python
 
 ---
 
