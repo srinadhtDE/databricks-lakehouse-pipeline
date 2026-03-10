@@ -1,10 +1,1 @@
-CSV Data Source
-      ↓
-Bronze Table (Delta)
-Raw transaction ingestion
-      ↓
-Silver Table (Delta)
-Data validation & transformation
-      ↓
-Gold Table (Delta)
-Business metrics for analytics
+Transaction Data Source -> Bronze Layer (Raw ingestion using PySpark) -> Silver Layer (Data cleaning and validation) -> Gold Layer (Aggregated business metrics) -> Analytics / ML workloads
