@@ -16,10 +16,10 @@ with DAG(
     description="Lakehouse transaction pipeline",
 ) as dag:
 
-    generate_data = BashOperator(
-        task_id="generate_transactions",
-        bash_command="python sample_data/generate_transactions.py",
-    )
+   generate_data = BashOperator(
+    task_id="generate_transactions",
+    bash_command="python /opt/airflow/dags/sample_data/generate_transactions.py",
+)
 
     ingest_bronze = BashOperator(
         task_id="bronze_ingestion",
